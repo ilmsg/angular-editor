@@ -3,15 +3,40 @@
 <head>
   <script src="http://code.angularjs.org/1.1.0/angular.min.js"></script>
   <script>
-  function DocsController($scope) { 
+
+  Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+  }
+
+  Storage.prototype.getObject = function(key) {
+    return JSON.parse(this.getItem(key));
+  }
+
+  var Doc = function() {
+    this.id = (new Date).getTime(),
+    this.name = "New document",
+    this.content = "Type something..."
+  };
+
+  Doc.save = function(doc){
+    console.log("saving: "+ doc.id)
+    localStorage.setObject(doc.id, doc)
+  };
+
+  function DocsController($scope) {
     $scope.log = function(obj){
       console.log(obj) 
     }
-    
-    $scope.doc = {
-      "name": "New document",
-      "content": "Type something..."
+
+    $scope.save = function(doc){
+      Doc.save(doc)
     }
+
+    $scope.$watch('doc.content', function(newValue, oldValue) {
+      console.log(newValue, oldValue)
+    });
+
+    $scope.doc = new Doc();
   }
   </script>
 </head>
@@ -19,6 +44,7 @@
   <h1 ng-model="doc.name">{{doc.name}}</h1>
   <textarea ng-model="doc.content">{{doc.content}}</textarea>
   <br>
-  <button ng-click="log(doc.content)">log</button>
+  <button ng-click="save(doc)">Save</button>
+  <button ng-click="log(doc)">log</button>
 </body>
 </html>
