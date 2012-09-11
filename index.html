@@ -1,0 +1,24 @@
+<!doctype html>
+<html ng-app>
+<head>
+  <script src="http://code.angularjs.org/1.1.0/angular.min.js"></script>
+  <script>
+  function DocsController($scope) { 
+    $scope.log = function(obj){
+      console.log(obj) 
+    }
+    
+    $scope.doc = {
+      "name": "New document",
+      "content": "Type something..."
+    }
+  }
+  </script>
+</head>
+<body ng-controller='DocsController'>
+  <h1 ng-model="doc.name">{{doc.name}}</h1>
+  <textarea ng-model="doc.content">{{doc.content}}</textarea>
+  <br>
+  <button ng-click="log(doc.content)">log</button>
+</body>
+</html>
