@@ -1,50 +1,69 @@
 <!doctype html>
 <html ng-app>
 <head>
+  <style>
+  .doc-content {
+    width:400px;
+    height:200px;
+  }
+  
+  </style>
   <script src="http://code.angularjs.org/1.1.0/angular.min.js"></script>
   <script>
-
-  Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value));
-  }
-
-  Storage.prototype.getObject = function(key) {
-    return JSON.parse(this.getItem(key));
-  }
-
+  
   var Doc = function() {
     this.id = (new Date).getTime(),
     this.name = "New document",
     this.content = "Type something..."
-  };
+  }
 
   Doc.save = function(doc){
-    console.log("saving: "+ doc.id)
-    localStorage.setObject(doc.id, doc)
-  };
+    return localStorage.setItem(doc.id, JSON.stringify(doc));
+  }
+  
+  Doc.find = function(id){
+    return JSON.parse(localStorage.getItem(id));
+  }
+
+  Doc.all = function(){
+    var all = [];
+    for (var i = 0; i < localStorage.length; i++){
+      all.push( Doc.find(localStorage.key(i)));
+    }
+    return all;
+  }
 
   function DocsController($scope) {
-    $scope.log = function(obj){
-      console.log(obj) 
+    $scope.doc = new Doc();
+    $scope.docs = Doc.all();
+    
+    $scope.save = function(doc){
+      Doc.save(doc);
+      $scope.docs = Doc.all();
     }
 
-    $scope.save = function(doc){
-      Doc.save(doc)
+    $scope.load = function(id){
+      return $scope.doc = Doc.find(id)
     }
 
     $scope.$watch('doc.content', function(newValue, oldValue) {
       console.log(newValue, oldValue)
     });
-
-    $scope.doc = new Doc();
   }
   </script>
 </head>
 <body ng-controller='DocsController'>
-  <h1 ng-model="doc.name">{{doc.name}}</h1>
-  <textarea ng-model="doc.content">{{doc.content}}</textarea>
-  <br>
   <button ng-click="save(doc)">Save</button>
   <button ng-click="log(doc)">log</button>
+  <input type="text" ng-model='selected_doc_id'>  
+  <button ng-click="load(selected_doc_id)">load</button>
+  <br>
+  <h1 ng-model="doc.name">{{doc.name}}</h1>
+  <textarea class="doc-content" ng-model="doc.content">{{doc.content}}</textarea>
+  <ul>
+    <li ng-repeat="doc in docs">
+      <a href="#" ng-click="load(doc.id)">{{doc.id}}</a>
+    </li>
+  </ul>
 </body>
 </html>
