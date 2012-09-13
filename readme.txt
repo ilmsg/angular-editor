@@ -1,11 +1,13 @@
 TODO
-* save doc on new
-* saved doc on change
-* create new doc
-* list docs
+* style it
 
 DONE
 * hello world with angular
 * save doc with button
+* list docs
 * load saved doc
 * edit doc name
+* create new doc
+* save doc on new
+* save doc on change
+

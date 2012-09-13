@@ -41,12 +41,17 @@
       $scope.docs = Doc.all();
     }
 
+    $scope.save_if_present = function(){
+      if ($scope.doc) { $scope.save($scope.doc); }
+    }
+
     $scope.load = function(id){
       return $scope.doc = Doc.find(id)
     }
 
     $scope.new = function() {
       $scope.doc = new Doc();
+      $scope.save($scope.doc);
       $scope.editName();
     }
 
@@ -58,18 +63,13 @@
       $scope.editNameMode = false;
     }
 
-    $scope.$watch('doc.content', function(newValue, oldValue) {
-      console.log(newValue, oldValue)
-    });
-
+    $scope.$watch('doc.content', $scope.save_if_present);
+    $scope.$watch('doc.name', $scope.save_if_present);
   }
   </script>
 </head>
 <body ng-controller='DocsController'>
   <button ng-click="new()">New</button>
-  <button ng-click="save(doc)">Save</button>
-  <button ng-click="log(doc)">log</button>
-  <input type="text" ng-model='selected_doc_id'>
   <br>
   <div class="doc-container">
     <div class="doc" ng-show="doc">
