@@ -1,15 +1,15 @@
 <!doctype html>
 <html ng-app>
 <head>
-  <style>
-  .doc-content {
-    width:400px;
-    height:200px;
-  }
+  <meta charset="utf-8">
+  <title>Angular Editor</title>
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+    .doc-content { width:400px; height:200px; }
+    .boxed { border: 1px solid lightgray}
   </style>
   <script src="http://code.angularjs.org/1.1.0/angular.min.js"></script>
   <script>
-
   var Doc = function() {
     this.id = (new Date).getTime(),
     this.name = "New document",
@@ -19,7 +19,7 @@
   Doc.save = function(doc){
     return localStorage.setItem(doc.id, JSON.stringify(doc));
   }
-  
+
   Doc.find = function(id){
     return JSON.parse(localStorage.getItem(id));
   }
@@ -68,31 +68,44 @@
   }
   </script>
 </head>
+
 <body ng-controller='DocsController'>
-  <button ng-click="new()">New</button>
-  <br>
-  <div class="doc-container">
-    <div class="doc" ng-show="doc">
-      <h1 class="name">
-        <div class="show" ng-hide="editNameMode">
-          <span ng-model="doc.name">{{doc.name}}</span>
-          <button ng-click="editName()">Edit</button>
-        </div>
-        <div class="edit" ng-show="editNameMode">
-          <input type="text" ng-model="doc.name">
-          <button ng-click="showName()">Ok</button>
-        </div>
-      </h1>
-      <textarea class="doc-content" ng-model="doc.content">{{doc.content}}</textarea>
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h1>Angular Editor</h1>
+      </div>
     </div>
-    <div class="no-doc" ng-hide="doc">
-      Select or create a new doc...
+    <div class="row">
+      <div class="span3">
+        <p><button ng-click="new()" class="btn">Create New Document</button></p>
+        <ul class="nav nav-tabs nav-stacked">
+          <li ng-repeat="doc in docs">
+            <a href="#" ng-click="load(doc.id)">{{doc.name}}</a>
+          </li>
+        </ul> 
+      </div>
+      <div class="span8 boxed">
+        <div class="doc-container">
+          <div class="doc" ng-show="doc">
+            <h3 class="name">
+              <div class="show" ng-hide="editNameMode">
+                <span ng-model="doc.name">{{doc.name}}</span>
+                <button ng-click="editName()" class="btn">Edit</button>
+              </div>
+              <div class="edit" ng-show="editNameMode">
+                <input type="text" ng-model="doc.name">
+                <button ng-click="showName()" class="btn">Ok</small>
+              </div>
+            </h3>
+            <textarea class="doc-content" ng-model="doc.content">{{doc.content}}</textarea>
+          </div>
+          <div class="no-doc" ng-hide="doc">
+            Select or create a new doc...
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <ul>
-    <li ng-repeat="doc in docs">
-      <a href="#" ng-click="load(doc.id)">{{doc.name}}</a>
-    </li>
-  </ul>
 </body>
 </html>
