@@ -5,7 +5,10 @@
   <title>Angular Editor</title>
   <link href="bootstrap.min.css" rel="stylesheet">
   <style type="text/css">
-    .doc-content { width:400px; height:200px; }
+    a:hover { text-decoration: none }
+    .doc-content { width:90%; min-height:600px }
+    .doc-container .doc { text-align:center }
+    .doc .name { display: inline }
   </style>
   <script src="angular.min.js"></script>
   <script>
@@ -87,11 +90,10 @@
       </div>
       <div class="span8">
         <div class="doc-container">
-          <div class="doc" ng-show="doc">
+          <div class="doc" ng-show="doc" style="text-align:center">
             <h3 class="name">
               <div class="show" ng-hide="editNameMode">
-                <span ng-model="doc.name">{{doc.name}}</span>
-                <button ng-click="editName()" class="btn">Edit</button>
+                <a href="#" ng-model="doc.name" ng-click="editName()">{{doc.name}}</a>
               </div>
               <div class="edit" ng-show="editNameMode">
                 <input type="text" ng-model="doc.name">
