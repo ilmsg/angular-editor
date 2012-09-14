@@ -6,16 +6,16 @@
   <link href="bootstrap.min.css" rel="stylesheet">
   <style type="text/css">
     a:hover { text-decoration: none }
-    .doc-content { width:90%; min-height:600px }
+    .doc-content { width:90%; min-height:580px }
     .doc-container .doc { text-align:center }
-    .doc .name { display: inline }
+    .doc .name { display: inline; }
   </style>
   <script src="angular.min.js"></script>
   <script>
 
   var Doc = function() {
     this.id = (new Date).getTime(),
-    this.name = "New document",
+    this.name = "Untitled document",
     this.content = "Type something..."
   }
 
@@ -76,12 +76,12 @@
   <div class="container">
     <div class="row">
       <div class="span12">
-        <h1>Angular Editor</h1>
+        <h3>Angular Editor</h3>
       </div>
     </div>
     <div class="row">
       <div class="span3">
-        <p><button ng-click="new()" class="btn">Create New Document</button></p>
+        <p><button ng-click="new()" class="btn">Create a new document</button></p>
         <ul class="nav nav-tabs nav-stacked">
           <li ng-repeat="doc in docs">
             <a href="#" ng-click="load(doc.id)">{{doc.name}}</a>
@@ -90,20 +90,22 @@
       </div>
       <div class="span8">
         <div class="doc-container">
-          <div class="doc" ng-show="doc" style="text-align:center">
-            <h3 class="name">
-              <div class="show" ng-hide="editNameMode">
-                <a href="#" ng-model="doc.name" ng-click="editName()">{{doc.name}}</a>
-              </div>
-              <div class="edit" ng-show="editNameMode">
-                <input type="text" ng-model="doc.name">
-                <button ng-click="showName()" class="btn">Ok</small>
-              </div>
-            </h3>
+          <div class="doc" ng-show="doc">
+            <p>
+              <h4 class="name">
+                <div class="show" ng-hide="editNameMode">
+                  <a href="#" ng-model="doc.name" ng-click="editName()">{{doc.name}}</a>
+                </div>
+                <div class="edit form-inline" ng-show="editNameMode">
+                  <input type="text" ng-model="doc.name">
+                  <button ng-click="showName()" class="btn">Ok</small>
+                </div>
+              </h4>
+            </p>
             <textarea class="doc-content" ng-model="doc.content">{{doc.content}}</textarea>
           </div>
           <div class="no-doc" ng-hide="doc">
-            Select or create a new doc...
+            Select or create a new document...
           </div>
         </div>
       </div>
