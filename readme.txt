@@ -1,5 +1,7 @@
+This is a simple plain text editor written using AngularJS
+
 TODO
-* style it
+
 
 DONE
 * hello world with angular
@@ -10,4 +12,4 @@ DONE
 * create new doc
 * save doc on new
 * save doc on change
-
+* style it
